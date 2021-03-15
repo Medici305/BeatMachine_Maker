@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: sans-serif;
+}
+
+i, svg {
+    pointer-events: none;
+}
+
+/* main container */
+.sequencer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 1. controls button and select */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    margin: 0 2rem;
+}
+
+.controls button {
+    padding: 1rem;
+    border: none;
+    background: rgb(126, 126, 126);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: .5rem;
+    transition: all .5s ease-in-out;
+}
+
+/* 2. instrument buttons */
+.kick, .snare, .hihat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kick-pad {
+    background: #529cce;
+}
+
+.snare-pad {
+    background: #3fbb73;
+}
+
+.hihat-pad {
+    background: #dcbe46;
+}
+
+.kick-pad.active {
+    background: #0099ff;
+}
+
+.snare-pad.active {
+    background: #00ff6a;
+}
+
+.hihat-pad.active {
+    background: #ffcc00;
+}
+
+.kick-pad, .snare-pad, .hihat-pad {
+    height: 5rem;
+    width: 5rem;
+    margin: 1rem .5rem;
+    cursor: pointer;
+}
+
+.pad {
+    transition: all .5s ease;
+}
+
+.kick-track, .snare-track, .hihat-track {
+    min-width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+select {
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.play {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background: rgb(126, 126, 126);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 2rem;
+    border-radius: .5rem;
+}
