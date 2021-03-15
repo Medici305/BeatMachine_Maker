@@ -50,15 +50,15 @@ i, svg {
 }
 
 .kick-pad {
-    background: #529cce;
+    background: #99bdd5;
 }
 
 .snare-pad {
-    background: #3fbb73;
+    background: #8bbb9f;
 }
 
 .hihat-pad {
-    background: #dcbe46;
+    background: #d6c991;
 }
 
 .kick-pad.active {
@@ -105,4 +105,13 @@ select {
     cursor: pointer;
     margin-top: 2rem;
     border-radius: .5rem;
+}
+
+@keyframes playTrack {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+    }
 }
