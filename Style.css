@@ -106,11 +106,43 @@ select {
     margin-top: 2rem;
     border-radius: .5rem;
     transition: all .5s ease;
+    outline: none;
 }
 
 button.active {
     transform: scale(.8);
     background: rgb(0, 0, 0);
+}
+
+.mute {
+    outline: none;
+}
+
+.mute.active {
+    background: rgb(66, 66, 66);
+}
+
+.tempo {
+    margin: 3rem;
+    width: 30%;
+}
+
+.tempo-slider {
+    padding: .2rem;
+    -webkit-appearance: none;
+    margin: 1rem 0rem;
+    width: 100%;
+    position: relative;
+    background: rgb(157, 157, 157);
+    cursor: pointer;
+    border-radius: 1rem;
+    outline: none;
+}
+
+.tempo p {
+    font-size: 1.5rem;
+    margin: 2rem;
+    text-align: center;
 }
 
 @keyframes playTrack {

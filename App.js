@@ -12,6 +12,8 @@ class Drumkit {
     this.bpm = 150;
     this.isPlaying = null;
     this.selects = document.querySelectorAll("select");
+    this.muteBtn = document.querySelectorAll(".mute");
+    this.tempoSlider = document.querySelector(".tempo-slider");
   }
 
   activePad() {
@@ -54,7 +56,7 @@ class Drumkit {
   }
 
   updateBtn() {
-    if (!this.isPlaying) {
+    if (this.isPlaying) {
       this.playBtn.innerText = "Play";
       this.playBtn.classList.add("active");
     } else {
@@ -78,6 +80,51 @@ class Drumkit {
         break;
     }
   }
+
+  mute(e) {
+    const muteIndex = e.target.getAttribute("data-track");
+    e.target.classList.toggle("active");
+    if (e.target.classList.contains("active")) {
+      switch (muteIndex) {
+        case "0":
+          this.kickAudio.volume = 0;
+          break;
+        case "1":
+          this.snareAudio.volume = 0;
+          break;
+        case "2":
+          this.hihatAudio.volume = 0;
+          break;
+      }
+    } else {
+      switch (muteIndex) {
+        case "0":
+          this.kickAudio.volume = 1;
+          break;
+        case "1":
+          this.snareAudio.volume = 1;
+          break;
+        case "2":
+          this.hihatAudio.volume = 1;
+          break;
+      }
+    }
+  }
+
+  updateTempo(e) {
+    const tempoNr = document.querySelector(".tempo-nr");
+    tempoNr.innerText = e.target.value;
+  }
+
+  changeTempo(e) {
+    this.bpm = e.target.value;
+    clearInterval(this.isPlaying);
+    this.isPlaying = null;
+    const playButton = document.querySelector(".play");
+    if (playButton.classList.contains("active")) {
+      this.start();
+    }
+  }
 }
 
 const drumKit = new Drumkit();
@@ -99,4 +146,18 @@ drumKit.pads.forEach((pad) => {
 drumKit.playBtn.addEventListener("click", () => {
   drumKit.start();
   drumKit.updateBtn();
+});
+
+drumKit.muteBtn.forEach((mute) => {
+  mute.addEventListener("click", function (e) {
+    drumKit.mute(e);
+  });
+});
+
+drumKit.tempoSlider.addEventListener("input", function (e) {
+  drumKit.updateTempo(e);
+});
+
+drumKit.tempoSlider.addEventListener("change", function (e) {
+  drumKit.changeTempo(e);
 });
