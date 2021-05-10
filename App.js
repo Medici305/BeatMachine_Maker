@@ -1,19 +1,19 @@
 class Drumkit {
   constructor() {
     this.pads = document.querySelectorAll(".pad");
-    this.currentKick = "./sound/kick-big.wav";
-    this.snareKick = "./sound/snare-big.wav";
-    this.hihatKick = "./sound/hihat-ring.wav";
-    this.playBtn = document.querySelector(".play");
     this.kickAudio = document.querySelector(".kick-sound");
     this.snareAudio = document.querySelector(".snare-sound");
     this.hihatAudio = document.querySelector(".hihat-sound");
-    this.index = 0;
-    this.bpm = 150;
-    this.isPlaying = null;
+    this.currentKick = "./sound/kick-big.wav";
+    this.snareKick = "./sound/snare-big.wav";
+    this.hihatKick = "./sound/hihat-ring.wav";
     this.selects = document.querySelectorAll("select");
+    this.playBtn = document.querySelector(".play");
     this.muteBtn = document.querySelectorAll(".mute");
     this.tempoSlider = document.querySelector(".tempo-slider");
+    this.isPlaying = null;
+    this.index = 0;
+    this.bpm = 150;
   }
 
   activePad() {
@@ -23,19 +23,20 @@ class Drumkit {
   repeat() {
     let step = this.index % 8;
     this.index++;
-    const activePad = document.querySelectorAll(`.b${step}`);
-    activePad.forEach((pad) => {
-      pad.style.animation = "playTrack .3s alternate ease-in-out 2";
-      if (pad.classList.contains("active")) {
-        if (pad.classList.contains("kick-pad")) {
+    const activeBars = document.querySelectorAll(`.b${step}`);
+    activeBars.forEach((bar) => {
+      bar.style.animation = "playTrack .3s alternate ease-in-out 2";
+      if (bar.classList.contains("active")) {
+        if (bar.classList.contains("kick-pad")) {
           this.kickAudio.currentTime = 0;
+          console.log("play kick");
           this.kickAudio.play();
         }
-        if (pad.classList.contains("snare-pad")) {
+        if (bar.classList.contains("snare-pad")) {
           this.snareAudio.currentTime = 0;
           this.snareAudio.play();
         }
-        if (pad.classList.contains("hihat-pad")) {
+        if (bar.classList.contains("hihat-pad")) {
           this.hihatAudio.currentTime = 0;
           this.hihatAudio.play();
         }
@@ -44,7 +45,7 @@ class Drumkit {
   }
 
   start() {
-    let interval = (60 / this.bpm) * 1000;
+    const interval = (60 / this.bpm) * 1000;
     if (!this.isPlaying) {
       this.isPlaying = setInterval(() => {
         this.repeat();
@@ -57,31 +58,31 @@ class Drumkit {
 
   updateBtn() {
     if (this.isPlaying) {
-      this.playBtn.innerText = "Play";
+      this.playBtn.innerText = "Stop";
       this.playBtn.classList.add("active");
     } else {
-      this.playBtn.innerText = "Stop";
+      this.playBtn.innerText = "Play";
       this.playBtn.classList.remove("active");
     }
   }
 
   changeSound(e) {
-    const selectName = e.target.name;
-    const selectValue = e.target.value;
-    switch (selectName) {
+    const selectionName = e.target.name;
+    const selectionValue = e.target.value;
+    switch (selectionName) {
       case "kick-select":
-        this.kickAudio.src = selectValue;
+        this.kickAudio.src = selectionValue;
         break;
       case "snare-select":
-        this.snareAudio.src = selectValue;
+        this.snareAudio.src = selectionValue;
         break;
       case "hihat-select":
-        this.hihatAudio.src = selectValue;
+        this.hihatAudio.src = selectionValue;
         break;
     }
   }
 
-  mute(e) {
+  muteSound(e) {
     const muteIndex = e.target.getAttribute("data-track");
     e.target.classList.toggle("active");
     if (e.target.classList.contains("active")) {
@@ -127,37 +128,36 @@ class Drumkit {
   }
 }
 
-const drumKit = new Drumkit();
+const drumkit = new Drumkit();
 
-// Event listeners
-drumKit.selects.forEach((select) => {
-  select.addEventListener("change", function (e) {
-    drumKit.changeSound(e);
-  });
-});
-
-drumKit.pads.forEach((pad) => {
-  pad.addEventListener("click", drumKit.activePad);
+drumkit.pads.forEach((pad) => {
+  pad.addEventListener("click", drumkit.activePad);
   pad.addEventListener("animationend", function () {
-    this.style.animation = "";
+    pad.style.animation = "";
   });
 });
 
-drumKit.playBtn.addEventListener("click", () => {
-  drumKit.start();
-  drumKit.updateBtn();
+drumkit.playBtn.addEventListener("click", () => {
+  drumkit.start();
+  drumkit.updateBtn();
 });
 
-drumKit.muteBtn.forEach((mute) => {
+drumkit.selects.forEach((select) => {
+  select.addEventListener("change", function (e) {
+    drumkit.changeSound(e);
+  });
+});
+
+drumkit.muteBtn.forEach((mute) => {
   mute.addEventListener("click", function (e) {
-    drumKit.mute(e);
+    drumkit.muteSound(e);
   });
 });
 
-drumKit.tempoSlider.addEventListener("input", function (e) {
-  drumKit.updateTempo(e);
+drumkit.tempoSlider.addEventListener("input", function (e) {
+  drumkit.updateTempo(e);
 });
 
-drumKit.tempoSlider.addEventListener("change", function (e) {
-  drumKit.changeTempo(e);
+drumkit.tempoSlider.addEventListener("change", function (e) {
+  drumkit.changeTempo(e);
 });
